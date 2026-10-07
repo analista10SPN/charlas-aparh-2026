@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Los empleos no desaparecen</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<script>
+  // En presentación (iframe del player) cargamos el runtime local: sin internet también funciona.
+  if (window.parent !== window) document.write('<script src="assets/vendor/hyperframe.runtime.iife.js"><\/script>');
+</script>
+<style>
+
+@font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-wdth.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: block; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/plex-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/plex-400i.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/plex-500.woff2") format("woff2"); font-weight: 500; font-display: block; }
+@font-face { font-family: "IBM Plex Sans"; src: url("assets/fonts/plex-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Caveat"; src: url("assets/fonts/caveat.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+@font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni.woff2") format("woff2"); font-weight: 400 900; font-display: block; }
+@font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-italic.woff2") format("woff2"); font-weight: 400 900; font-style: italic; font-display: block; }
+@font-face { font-family: "Work Sans"; src: url("assets/fonts/worksans.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Work Sans"; src: url("assets/fonts/worksans-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: block; }
+
+:root { --bg:#0F1511; --ink:#ECE3CF; --ink-2:rgba(236,227,207,.82); --ink-3:rgba(236,227,207,.6); --rule:rgba(236,227,207,.2);
+      --copper:#D2915D; --copper-l:#F2C38F; --verd:#8DB5A2; --blood:#D24B43; --credit:rgba(236,227,207,.5); --body-font:"Work Sans"; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); }
+.ambient { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.scene { position: absolute; inset: 0; overflow: hidden; }
+.stage { position: absolute; inset: 0; }
+.pad { position: absolute; inset: 0; padding: 150px 150px 140px; }
+.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.frag { will-change: opacity; }
+.lm-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.lm-wi { display: inline-block; will-change: transform; }
+.lm-sweep { position: absolute; left: 0; right: 0; top: 0; height: 4px; opacity: 0; background: var(--sweep); z-index: 50; }
+/* live-motion: evita el parpadeo del estado final antes de la entrada */
+.hf-live .scene:not(.is-in) [data-anim], .hf-live .scene:not(.is-in) [data-draw] { opacity: 0; }
+.hf-live .frag:not(.lm-shown) [data-anim], .hf-live .frag:not(.lm-shown) [data-draw] { opacity: 0; }
+
+.credit { position: absolute; font-family: var(--body-font), sans-serif; font-size: 13px; line-height: 1.3; color: var(--credit); letter-spacing: 0.02em; z-index: 30; max-width: 900px; }
+
+
+.paper { position:absolute; inset:-50%; opacity:.06; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .93  0 0 0 0 .89  0 0 0 0 .81  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+.vig { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(0,0,0,.45) 100%); }
+
+.top { position:absolute; left:120px; right:120px; top:54px; display:flex; justify-content:space-between; font-size:21px; color:var(--ink-3); z-index:20; }
+.foot { position:absolute; left:120px; bottom:46px; z-index:20; }
+.logos { display:flex; align-items:center; gap:34px; }
+.logos img { display:block; }
+
+/* Bodoni solo en tamaños grandes; todo lo que se lee va en Work Sans */
+.d { font-family:"Bodoni Moda",serif; font-weight:600; letter-spacing:-0.01em; line-height:1.04; color:var(--ink); }
+.h { font-family:"Bodoni Moda",serif; font-weight:600; font-size:72px; line-height:1.04; letter-spacing:-0.01em; }
+.body { font-size:30px; line-height:1.5; color:var(--ink-2); }
+.body b { color:var(--ink); font-weight:600; }
+.copper { color:var(--copper-l); }
+.blood { color:var(--blood); }
+.src { font-size:19px; line-height:1.45; color:var(--ink-3); }
+
+.pl { position:absolute; margin:0; }
+.pl-img { position:relative; width:100%; height:calc(100% - 46px); overflow:hidden; outline:1px solid rgba(236,227,207,.5); outline-offset:8px; background:#1A211C; }
+.pl-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.pl figcaption { position:absolute; left:0; right:0; bottom:0; height:30px; font-size:19px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pl-n { color:var(--copper); font-weight:600; }
+
+/* árbol */
+.tree { position:absolute; left:690px; top:150px; width:1120px; height:780px; overflow:visible; }
+.tr-root { font-family:"Work Sans",sans-serif; font-weight:600; font-size:26px; fill:#ECE3CF; }
+.tr-keep { font-family:"Work Sans",sans-serif; font-size:23px; fill:rgba(236,227,207,.75); }
+.tr-year { font-family:"Work Sans",sans-serif; font-weight:700; font-size:20px; fill:#0F1511; }
+.tr-innov { font-family:"Bodoni Moda",serif; font-weight:600; font-size:44px; fill:#F2C38F; }
+.tr-leaf { font-family:"Work Sans",sans-serif; font-weight:500; font-size:21px; fill:#ECE3CF; }
+.tr-copy { position:absolute; left:120px; top:150px; width:540px; }
+.tr-copy .body { margin-top:28px; font-size:27px; }
+.tr-copy .body p + p { margin-top:16px; }
+.tr-data { margin-top:30px; padding-top:20px; border-top:1px solid var(--rule); }
+.tr-data .n { font-family:"Bodoni Moda",serif; font-weight:600; font-size:64px; line-height:1; color:var(--copper-l); }
+.tr-data p { font-size:23px; line-height:1.45; color:var(--ink-2); margin-top:8px; }
+
+/* portada */
+.cv-bg { position:absolute; inset:0; }
+.cv-bg img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.4; }
+.cv-bg::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#0F1511 25%,rgba(15,21,17,.6) 70%,rgba(15,21,17,.25)); }
+.cv-t { position:absolute; left:120px; top:210px; width:1600px; font-size:112px; }
+.cv-t .l2 { display:block; color:var(--copper-l); font-style:italic; font-weight:500; }
+.cv-who { position:absolute; left:124px; bottom:92px; }
+.cv-who b { display:block; font-family:"Bodoni Moda",serif; font-size:44px; font-weight:600; }
+.cv-who span { display:block; font-size:23px; color:var(--ink-3); margin-top:8px; }
+.cv-logos { position:absolute; right:120px; bottom:100px; display:flex; align-items:center; gap:44px; }
+
+/* tesis */
+.th-q { position:absolute; left:120px; top:300px; width:1680px; font-size:116px; line-height:1.06; padding-right:30px; }
+.th-sub { position:absolute; left:126px; top:720px; width:1500px; font-size:32px; line-height:1.5; color:var(--ink-2); }
+
+/* mano alzada */
+.hd-icon { position:absolute; left:120px; top:180px; }
+.hd-q { position:absolute; left:120px; top:330px; width:1080px; font-size:68px; }
+.hd-n { position:absolute; left:1280px; top:300px; font-family:"Bodoni Moda",serif; font-weight:600; font-size:250px; line-height:.85; color:var(--copper-l); }
+.hd-p { position:absolute; left:1290px; top:560px; width:520px; font-size:27px; line-height:1.45; color:var(--ink-2); }
+
+/* Lavoisier */
+.lv-q { position:absolute; left:120px; top:200px; width:1040px; font-size:104px; line-height:1.04; font-style:italic; font-weight:500; }
+.lv-q span { display:block; }
+.lv-who { position:absolute; left:124px; top:720px; font-size:28px; color:var(--ink); }
+.lv-who span { display:block; font-size:22px; color:var(--ink-3); margin-top:6px; }
+.lv-bridge { position:absolute; left:124px; top:830px; width:1000px; font-size:32px; font-weight:500; color:var(--copper-l); }
+
+/* Engels */
+.en-copy { position:absolute; left:720px; right:120px; top:150px; }
+.en-copy .h { font-size:62px; }
+.en-copy .body { margin-top:22px; font-size:26px; }
+.en-chart { position:absolute; left:720px; top:520px; width:1080px; height:420px; overflow:visible; }
+.ch-lbl { font-family:"Work Sans",sans-serif; font-size:22px; fill:rgba(236,227,207,.75); }
+.ch-big { font-family:"Bodoni Moda",serif; font-weight:600; font-size:52px; }
+
+/* ritmo */
+.pace { position:absolute; left:140px; right:140px; top:330px; height:420px; }
+.pace-line { position:absolute; left:0; right:0; top:200px; height:2px; background:linear-gradient(90deg,rgba(210,145,93,.25),var(--copper) 70%,var(--blood)); }
+.pt2 { position:absolute; top:0; height:420px; margin-left:-11px; }
+.pt2 .dotp { position:absolute; left:0; top:190px; width:22px; height:22px; border-radius:50%; background:var(--copper); }
+.pt2.now .dotp { background:var(--blood); box-shadow:0 0 0 10px rgba(210,75,67,.22); }
+.pt2 .gap { position:absolute; left:-160px; width:150px; text-align:right; top:150px; font-size:21px; color:var(--ink-3); white-space:nowrap; }
+.pt2 .yr { position:absolute; left:0; top:236px; font-family:"Bodoni Moda",serif; font-weight:600; font-size:44px; line-height:1; white-space:nowrap; }
+.pt2 .what { position:absolute; left:0; top:292px; font-size:22px; color:var(--ink-2); white-space:nowrap; }
+.pt2.now .yr { color:var(--blood); }
+.pace-foot { position:absolute; left:120px; right:120px; top:790px; display:flex; justify-content:space-between; align-items:flex-start; gap:60px; }
+.pace-foot .t { font-size:36px; line-height:1.35; max-width:1100px; color:var(--ink); }
+.wef { text-align:right; }
+.wef .n { font-family:"Bodoni Moda",serif; font-weight:600; font-size:110px; line-height:.85; color:var(--copper-l); }
+.wef p { font-size:20px; color:var(--ink-3); max-width:420px; line-height:1.4; margin:12px 0 0 auto; }
+
+/* descomposición */
+.dc-card { position:absolute; left:680px; top:270px; width:560px; padding:22px 30px; border-radius:20px; border:2px solid var(--ink); text-align:center; }
+.dc-card b { display:block; font-family:"Bodoni Moda",serif; font-size:44px; font-weight:600; white-space:nowrap; }
+.dc-card span { font-size:21px; color:var(--ink-3); }
+.dc-col { position:absolute; top:460px; width:760px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.dc-head { font-size:26px; font-weight:600; margin-bottom:8px; }
+.dc-chip { display:inline-flex; align-items:center; gap:12px; padding:13px 22px; border-radius:999px; font-size:25px; border:1.5px solid var(--rule); background:#1A221C; }
+.dc-chip i { width:10px; height:10px; border-radius:50%; background:var(--ink-3); flex:none; }
+.dc-chip.grow, .dc-chip.new { border-color:rgba(210,145,93,.7); background:rgba(210,145,93,.12); }
+.dc-chip.grow i, .dc-chip.new i { background:var(--copper-l); }
+.dc-chip.new { border-style:dashed; }
+
+/* empresas */
+.co-grid { position:absolute; left:120px; right:120px; top:330px; display:grid; grid-template-columns:repeat(3,1fr); gap:44px; }
+.co { padding-top:24px; border-top:2px solid var(--copper); }
+.co .who { font-size:24px; font-weight:600; color:var(--copper-l); }
+.co .n { font-family:"Bodoni Moda",serif; font-weight:600; font-size:58px; line-height:1.05; margin-top:14px; }
+.co p { font-size:24px; line-height:1.5; color:var(--ink-2); margin-top:14px; }
+.co .src { margin-top:14px; }
+
+/* tensión */
+.tn { position:absolute; left:720px; right:120px; top:160px; display:flex; flex-direction:column; gap:40px; }
+.tn-1 { font-family:"Bodoni Moda",serif; font-weight:500; font-size:50px; line-height:1.2; }
+.tn-2 { padding-left:30px; border-left:3px solid var(--copper); }
+.tn-2 .k, .tn-3 .k { font-size:22px; font-weight:600; color:var(--copper-l); }
+.tn-2 p, .tn-3 p { font-size:28px; line-height:1.5; color:var(--ink); margin-top:8px; }
+.tn-3 { padding-left:30px; border-left:3px solid var(--verd); }
+.tn-3 .k { color:var(--verd); }
+
+/* capacidades */
+.caps { position:absolute; left:120px; right:120px; top:330px; display:grid; grid-template-columns:repeat(5,1fr); gap:36px; }
+.cap { padding-top:24px; border-top:1px solid var(--rule); }
+.cap h3 { font-family:"Work Sans",sans-serif; font-size:32px; font-weight:600; line-height:1.15; margin-top:18px; }
+.cap p { font-size:25px; line-height:1.45; color:var(--ink-2); margin-top:12px; }
+.cap .src { margin-top:14px; font-size:20px; }
+.cp-foot { position:absolute; left:120px; bottom:130px; font-size:32px; font-weight:500; color:var(--copper-l); }
+
+/* síntesis */
+.sy { position:absolute; left:120px; right:120px; top:300px; display:flex; flex-direction:column; gap:26px; }
+.sy-row { display:grid; grid-template-columns:240px 1fr; align-items:baseline; padding-top:20px; border-top:1px solid var(--rule); }
+.sy-row .k { font-size:24px; font-weight:600; color:var(--ink-3); }
+.sy-row .t { font-family:"Bodoni Moda",serif; font-size:50px; font-weight:600; line-height:1.12; }
+.sy-row.syn .k { color:var(--copper-l); }
+.sy-keep { display:flex; gap:16px; margin-top:22px; flex-wrap:wrap; }
+.sy-keep span { padding:12px 22px; border-radius:999px; border:1.5px solid rgba(210,145,93,.7); background:rgba(210,145,93,.12); font-size:24px; }
+
+/* lunes */
+.monday { position:absolute; left:120px; right:120px; top:270px; }
+.mi { display:grid; grid-template-columns:90px 1fr; align-items:baseline; padding:15px 0; border-top:1px solid var(--rule); }
+.mi .n { font-family:"Bodoni Moda",serif; font-weight:600; font-size:64px; line-height:.9; color:var(--copper); }
+.mi b { font-weight:600; font-size:36px; }
+.mi span { display:block; font-size:24px; color:var(--ink-2); margin-top:6px; line-height:1.4; }
+.mi span em { font-style:normal; font-weight:600; color:var(--copper-l); }
+
+/* cierre */
+.fin { position:absolute; left:200px; right:200px; top:180px; display:flex; flex-direction:column; gap:46px; }
+.fin p { font-family:"Bodoni Moda",serif; font-weight:500; font-size:56px; line-height:1.2; }
+.fin p.last { font-weight:600; font-size:62px; color:var(--copper-l); }
+.fin-foot { position:absolute; left:200px; right:200px; bottom:90px; display:flex; justify-content:space-between; align-items:center; }
+.fin-foot b { font-family:"Bodoni Moda",serif; font-size:34px; font-weight:600; }
+.fin-foot span { display:block; font-size:21px; color:var(--ink-3); margin-top:6px; }
+.fin-who { display:flex; align-items:center; gap:30px; }
+.fin-who img { width:210px; height:210px; border-radius:10px; display:block; }
+
+</style>
+</head>
+<body>
+<script type="application/hyperframes-slideshow+json">{"slides":[{"sceneId":"s01"},{"sceneId":"s02","fragments":[4.5,5.5]},{"sceneId":"s03","fragments":[7,8]},{"sceneId":"s04"},{"sceneId":"s05"},{"sceneId":"s06"},{"sceneId":"s07"},{"sceneId":"s08","fragments":[25.5,26.5]},{"sceneId":"s09","fragments":[28,29,30,31,32,33,34]},{"sceneId":"s10"},{"sceneId":"s11","fragments":[39.5,40.5,41.5]},{"sceneId":"s12"},{"sceneId":"s13","fragments":[47,48,49]},{"sceneId":"s14","fragments":[50.5,51.5,52.5]},{"sceneId":"s15"},{"sceneId":"s16","fragments":[58,59,60]}]}</script>
+<div id="root" data-composition-id="deck" data-start="0" data-duration="61.0" data-width="1920" data-height="1080">
+  <div class="ambient" id="ambient"><div class="paper"></div><div class="vig"></div></div>
+
+  <div id="s01" class="scene clip" data-composition-id="s01" data-start="0.0" data-duration="4.0" data-label="Portada" data-width="1920" data-height="1080">
+    
+  <div class="cv-bg"><img data-scene-bg data-kb data-kb-dur="20" src="assets/duo/textile-mill.jpg" alt=""></div>
+  <h1 class="d cv-t" data-anim="rise">Los empleos no desaparecen: <span class="l2">se descomponen y se rediseñan.</span></h1>
+  <div class="cv-who" data-anim="fade" data-delay="0.8"><b>Ariel González Batista</b><span>AI Engineer &amp; Consultant en BRDGIT. Manager de I+D en SPN Software.</span><span>XI Congreso Internacional de Gestión Humana APARH 2026</span></div>
+  <div class="cv-logos" data-anim="fade" data-delay="1.0"><img src="assets/brand/brdgit-silverlogic-cream.svg" style="height:46px" alt="BRDGIT"><img src="assets/brand/spn-cream.svg" style="height:56px" alt="SPN Software"></div>
+
+    
+    <div class="credit" style="right:24px;bottom:16px;text-align:right">T. Allom, «Power loom weaving», 1835. Dominio público</div>
+  </div>
+  <div id="s02" class="scene clip" data-composition-id="s02" data-start="4.0" data-duration="2.5" data-label="La tesis" data-width="1920" data-height="1080">
+    
+  <p class="d th-q" data-anim="write" data-dur="2.2">«La IA va a reemplazar a Recursos Humanos.»</p>
+  <div class="frag" data-step="1"><p class="th-sub" data-anim="fade">Es lo que más se escucha en los pasillos. Vamos a revisarlo con historia, con datos y con lo que ya está pasando en empresas que conocen.</p></div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>2 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s03" class="scene clip" data-composition-id="s03" data-start="6.5" data-duration="2.5" data-label="Mano alzada" data-width="1920" data-height="1080">
+    
+  <div class="hd-icon" data-anim="fade"><svg viewBox="0 0 80 80" style="width:110px;height:110px;overflow:visible" fill="none" stroke="#F2C38F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-draw d="M28 76 C 18 64, 14 54, 14 46 L14 30 C 14 26, 22 26, 22 30 L22 42 L22 14 C 22 9, 30 9, 30 14 L30 40 L30 8 C 30 3, 38 3, 38 8 L38 40 L38 12 C 38 7, 46 7, 46 12 L46 42 L46 22 C 46 17, 54 17, 54 22 L54 52 C 54 64, 48 72, 44 76 Z" /></svg></div>
+  <p class="d hd-q" data-anim="fade" data-delay="0.2">Levanten la mano si su cargo actual no existía cuando empezaron a trabajar.</p>
+  <div class="frag" data-step="1">
+    <div class="hd-n" data-anim="fade"><span data-count="60" data-suffix="%">60%</span></div>
+    <p class="hd-p" data-anim="fade" data-delay="0.3">de los trabajadores de EE.&nbsp;UU. en 2018 tenía una ocupación que no existía en 1940.<span class="src" style="display:block;margin-top:10px">Autor, Chin, Salomons y Seegmiller, Quarterly Journal of Economics, 2024</span></p>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>3 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s04" class="scene clip" data-composition-id="s04" data-start="9.0" data-duration="4.0" data-label="El principio" data-width="1920" data-height="1080">
+    
+  <figure class="pl" style="right:120px;top:130px;width:600px;height:830px" data-anim="plate"><div class="pl-img"><img data-kb src="assets/duo/lavoisier.jpg" alt="" style="object-position:72% 24%"></div><figcaption><span class="pl-n">Lám. I.</span> Jacques-Louis David, Lavoisier y su esposa, 1788.</figcaption></figure>
+  <p class="d lv-q"><span data-anim="rise" data-delay="0.2">«Nada se pierde,</span><span data-anim="rise" data-delay="0.6">nada se crea,</span><span class="copper" data-anim="rise" data-delay="1.0">todo se transforma.»</span></p>
+  <div class="lv-who" data-anim="fade" data-delay="1.4">Antoine-Laurent de Lavoisier<span>Versión popular de su principio de conservación de la masa (<i>Tratado elemental de química</i>, 1789)</span></div>
+  <p class="lv-bridge" data-anim="fade" data-delay="1.8">Lo que vale para la materia vale para el trabajo.</p>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>4 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    <div class="credit" style="right:24px;bottom:16px;text-align:right">Jacques-Louis David, 1788. The Met, CC0</div>
+  </div>
+  <div id="s05" class="scene clip story" data-story="tree" data-composition-id="s05" data-start="13.0" data-duration="4.0" data-label="Árbol: la siembra" data-width="1920" data-height="1080">
+    
+  <div class="tr-copy">
+    <h2 class="h" data-anim="fade">La siembra</h2>
+    <div class="body">
+      <p data-anim="fade" data-delay="0.2">Hace unos 12.000 años empezamos a cultivar. Aquí mismo, en la cuenca Paraná–Paraguay, los guaraní sembraban maíz y mandioca <b>mientras seguían cazando</b>.</p>
+      <p data-anim="fade" data-delay="0.35">El cazador no desapareció: su saber pasó a la siembra.</p>
+    </div>
+  </div>
+  <figure class="pl" style="left:120px;top:640px;width:420px;height:300px" data-anim="fade" data-delay="0.5"><div class="pl-img"><img src="assets/duo/guarani.jpg" alt="" style="object-position:50% 50%"></div><figcaption><span class="pl-n">Lám. II.</span> Maíz tradicional mbyá guaraní.</figcaption></figure>
+  <svg class="tree" viewBox="0 0 1120 780" fill="none"><path data-draw data-dur="1.0" data-delay="0.30" d="M560 680 C 515.0 710, 440.0 716.0, 410 760" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.35" d="M560 680 C 542.0 710, 512.0 725.0, 500 775" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.40" d="M560 680 C 572.0 710, 592.0 722.0, 600 770" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.45" d="M560 680 C 602.0 710, 672.0 713.0, 700 755" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.50" d="M560 680 C 530.0 710, 480.0 692.0, 460 720" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.55" d="M560 680 C 588.5 710, 636.0 693.2, 655 722" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path id="t1-b0" class="branch" data-draw data-dur="1.3" data-delay="1.00" d="M560 624 L560 440 C 560 310, 70 240, 70 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t1-b0" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t1-b1" class="branch" data-draw data-dur="1.3" data-delay="1.10" d="M560 624 L560 440 C 560 310, 315 360, 315 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t1-b1" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t1-b2" class="branch" data-draw data-dur="1.3" data-delay="1.20" d="M560 624 L560 440 C 560 310, 560 240, 560 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t1-b2" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t1-b3" class="branch" data-draw data-dur="1.3" data-delay="1.30" d="M560 624 L560 440 C 560 310, 805 360, 805 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t1-b3" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t1-b4" class="branch" data-draw data-dur="1.3" data-delay="1.40" d="M560 624 L560 440 C 560 310, 1050 240, 1050 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t1-b4" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><g data-anim="fade" data-delay="0.1"><rect x="397" y="620" width="326" height="60" rx="30" fill="#0F1511" stroke="#ECE3CF" stroke-width="2"/><text x="560" y="659" text-anchor="middle" class="tr-root">Cazador-recolector</text></g><text data-anim="fade" data-delay="0.6" x="560" y="818" text-anchor="middle" class="tr-keep">Se conserva: el conocimiento del territorio</text><g data-anim="zoom" data-delay="0.9"><circle cx="560" cy="400" r="66" fill="#D2915D"/><text x="560" y="408" text-anchor="middle" class="tr-year">10.000 a.C.</text></g><text data-anim="fade" data-delay="1.0" x="646" y="412" class="tr-innov">La siembra</text><g data-anim="zoom" data-delay="2.00"><rect x="-13" y="44" width="166" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="70" y="78" text-anchor="middle" class="tr-leaf">Agricultor</text></g><g data-anim="zoom" data-delay="2.12"><rect x="244" y="164" width="142" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="315" y="198" text-anchor="middle" class="tr-leaf">Alfarero</text></g><g data-anim="zoom" data-delay="2.24"><rect x="495" y="44" width="129" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="560" y="78" text-anchor="middle" class="tr-leaf">Tejedor</text></g><g data-anim="zoom" data-delay="2.36"><rect x="716" y="164" width="178" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="805" y="198" text-anchor="middle" class="tr-leaf">Constructor</text></g><g data-anim="zoom" data-delay="2.48"><rect x="961" y="44" width="178" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="1050" y="78" text-anchor="middle" class="tr-leaf">Comerciante</text></g></svg>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>5 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    <div class="credit" style="right:24px;bottom:16px;text-align:right">Foto: Daiana Yxapy, «Milho tradicional Mbyá Guarani», CC BY-SA 4.0</div>
+  </div>
+  <div id="s06" class="scene clip story" data-story="tree" data-composition-id="s06" data-start="17.0" data-duration="4.0" data-label="Árbol: la imprenta" data-width="1920" data-height="1080">
+    
+  <div class="tr-copy">
+    <h2 class="h" data-anim="fade">La imprenta</h2>
+    <div class="body">
+      <p data-anim="fade" data-delay="0.2">Un copista podía pasar meses en un solo libro. Con los tipos móviles de Gutenberg, la Biblia de 1455 salió en unos 180 ejemplares.</p>
+      <p data-anim="fade" data-delay="0.35">El saber del copista —la letra y el texto— no se perdió: se ramificó.</p>
+    </div>
+    <div class="tr-data" data-anim="fade" data-delay="0.5"><div class="n">12,6 millones</div><p>de libros impresos entre 1454 y 1500: más que todos los manuscritos copiados en Europa occidental en los mil años anteriores (10,9 millones).</p><p class="src">Buringh y van Zanden, Journal of Economic History, 2009</p></div>
+  </div>
+  <svg class="tree" viewBox="0 0 1120 780" fill="none"><path data-draw data-dur="1.0" data-delay="0.30" d="M560 680 C 515.0 710, 440.0 716.0, 410 760" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.35" d="M560 680 C 542.0 710, 512.0 725.0, 500 775" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.40" d="M560 680 C 572.0 710, 592.0 722.0, 600 770" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.45" d="M560 680 C 602.0 710, 672.0 713.0, 700 755" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.50" d="M560 680 C 530.0 710, 480.0 692.0, 460 720" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.55" d="M560 680 C 588.5 710, 636.0 693.2, 655 722" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path id="t2-b0" class="branch" data-draw data-dur="1.3" data-delay="1.00" d="M560 624 L560 440 C 560 310, 70 240, 70 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b0" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b1" class="branch" data-draw data-dur="1.3" data-delay="1.10" d="M560 624 L560 440 C 560 310, 233 360, 233 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b1" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b2" class="branch" data-draw data-dur="1.3" data-delay="1.20" d="M560 624 L560 440 C 560 310, 397 240, 397 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b2" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b3" class="branch" data-draw data-dur="1.3" data-delay="1.30" d="M560 624 L560 440 C 560 310, 560 360, 560 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b3" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b4" class="branch" data-draw data-dur="1.3" data-delay="1.40" d="M560 624 L560 440 C 560 310, 723 240, 723 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b4" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b5" class="branch" data-draw data-dur="1.3" data-delay="1.50" d="M560 624 L560 440 C 560 310, 887 360, 887 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b5" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t2-b6" class="branch" data-draw data-dur="1.3" data-delay="1.60" d="M560 624 L560 440 C 560 310, 1050 240, 1050 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t2-b6" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><g data-anim="fade" data-delay="0.1"><rect x="480" y="620" width="161" height="60" rx="30" fill="#0F1511" stroke="#ECE3CF" stroke-width="2"/><text x="560" y="659" text-anchor="middle" class="tr-root">Copista</text></g><text data-anim="fade" data-delay="0.6" x="560" y="818" text-anchor="middle" class="tr-keep">Se conserva: la letra y el texto</text><g data-anim="zoom" data-delay="0.9"><circle cx="560" cy="400" r="66" fill="#D2915D"/><text x="560" y="408" text-anchor="middle" class="tr-year">1450</text></g><text data-anim="fade" data-delay="1.0" x="646" y="412" class="tr-innov">La imprenta</text><g data-anim="zoom" data-delay="2.00"><rect x="-7" y="44" width="154" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="70" y="78" text-anchor="middle" class="tr-leaf">Tipógrafo</text></g><g data-anim="zoom" data-delay="2.12"><rect x="163" y="164" width="142" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="233" y="198" text-anchor="middle" class="tr-leaf">Impresor</text></g><g data-anim="zoom" data-delay="2.24"><rect x="320" y="44" width="154" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="397" y="78" text-anchor="middle" class="tr-leaf">Corrector</text></g><g data-anim="zoom" data-delay="2.36"><rect x="501" y="164" width="117" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="560" y="198" text-anchor="middle" class="tr-leaf">Editor</text></g><g data-anim="zoom" data-delay="2.48"><rect x="659" y="44" width="129" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="723" y="78" text-anchor="middle" class="tr-leaf">Librero</text></g><g data-anim="zoom" data-delay="2.60"><rect x="804" y="164" width="166" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="887" y="198" text-anchor="middle" class="tr-leaf">Periodista</text></g><g data-anim="zoom" data-delay="2.72"><rect x="985" y="44" width="129" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="1050" y="78" text-anchor="middle" class="tr-leaf">Maestro</text></g></svg>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>6 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s07" class="scene clip story" data-story="tree" data-composition-id="s07" data-start="21.0" data-duration="4.0" data-label="Árbol: el telar" data-width="1920" data-height="1080">
+    
+  <div class="tr-copy">
+    <h2 class="h" data-anim="fade">El telar mecánico</h2>
+    <div class="body">
+      <p data-anim="fade" data-delay="0.2">En el siglo XIX se automatizó casi todo el trabajo de tejer. Y pasó algo contraintuitivo:</p>
+    </div>
+    <div class="tr-data" data-anim="fade" data-delay="0.4"><div class="n">98%</div><p>del trabajo de tejer una yarda de tela se automatizó… <b style="color:var(--ink)">y los empleos de tejedor en fábricas crecieron</b>: la ropa se abarató y la demanda se multiplicó.</p><p class="src">James Bessen, «Toil and Technology», FMI, 2015</p></div>
+  </div>
+  <svg class="tree" viewBox="0 0 1120 780" fill="none"><path data-draw data-dur="1.0" data-delay="0.30" d="M560 680 C 515.0 710, 440.0 716.0, 410 760" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.35" d="M560 680 C 542.0 710, 512.0 725.0, 500 775" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.40" d="M560 680 C 572.0 710, 592.0 722.0, 600 770" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.45" d="M560 680 C 602.0 710, 672.0 713.0, 700 755" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.50" d="M560 680 C 530.0 710, 480.0 692.0, 460 720" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path data-draw data-dur="1.0" data-delay="0.55" d="M560 680 C 588.5 710, 636.0 693.2, 655 722" stroke="rgba(210,145,93,.45)" stroke-width="2"/><path id="t3-b0" class="branch" data-draw data-dur="1.3" data-delay="1.00" d="M560 624 L560 440 C 560 310, 70 240, 70 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t3-b0" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t3-b1" class="branch" data-draw data-dur="1.3" data-delay="1.10" d="M560 624 L560 440 C 560 310, 315 360, 315 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t3-b1" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t3-b2" class="branch" data-draw data-dur="1.3" data-delay="1.20" d="M560 624 L560 440 C 560 310, 560 240, 560 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t3-b2" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t3-b3" class="branch" data-draw data-dur="1.3" data-delay="1.30" d="M560 624 L560 440 C 560 310, 805 360, 805 216" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t3-b3" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><path id="t3-b4" class="branch" data-draw data-dur="1.3" data-delay="1.40" d="M560 624 L560 440 C 560 310, 1050 240, 1050 96" stroke="#D2915D" stroke-width="2.6" stroke-linecap="round"/><circle class="pt" data-for="t3-b4" r="8" cx="560" cy="650" fill="#F2C38F" opacity="0"/><g data-anim="fade" data-delay="0.1"><rect x="427" y="620" width="266" height="60" rx="30" fill="#0F1511" stroke="#ECE3CF" stroke-width="2"/><text x="560" y="659" text-anchor="middle" class="tr-root">Tejedor manual</text></g><text data-anim="fade" data-delay="0.6" x="560" y="818" text-anchor="middle" class="tr-keep">Se conserva: el saber del tejido</text><g data-anim="zoom" data-delay="0.9"><circle cx="560" cy="400" r="66" fill="#D2915D"/><text x="560" y="408" text-anchor="middle" class="tr-year">1785</text></g><text data-anim="fade" data-delay="1.0" x="646" y="412" class="tr-innov">El telar mecánico</text><g data-anim="zoom" data-delay="2.00"><rect x="-1" y="44" width="142" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="70" y="78" text-anchor="middle" class="tr-leaf">Operario</text></g><g data-anim="zoom" data-delay="2.12"><rect x="244" y="164" width="142" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="315" y="198" text-anchor="middle" class="tr-leaf">Mecánico</text></g><g data-anim="zoom" data-delay="2.24"><rect x="477" y="44" width="166" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="560" y="78" text-anchor="middle" class="tr-leaf">Supervisor</text></g><g data-anim="zoom" data-delay="2.36"><rect x="728" y="164" width="154" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="805" y="198" text-anchor="middle" class="tr-leaf">Diseñador</text></g><g data-anim="zoom" data-delay="2.48"><rect x="961" y="44" width="178" height="52" rx="26" fill="#1A221C" stroke="rgba(236,227,207,.45)" stroke-width="1.5"/><text x="1050" y="78" text-anchor="middle" class="tr-leaf">Comerciante</text></g></svg>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>7 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s08" class="scene clip" data-composition-id="s08" data-start="25.0" data-duration="2.5" data-label="Ludditas y la pausa de Engels" data-width="1920" data-height="1080">
+    
+  <figure class="pl" style="left:120px;top:140px;width:500px;height:820px" data-anim="plate"><div class="pl-img"><img data-kb src="assets/duo/luddites.jpg" alt="" style="object-position:50% 30%"></div><figcaption><span class="pl-n">Lám. III.</span> El líder de los ludditas, 1812.</figcaption></figure>
+  <div class="en-copy">
+    <h2 class="h" data-anim="fade">Los ludditas tenían razón… a corto plazo</h2>
+    <p class="body" data-anim="fade" data-delay="0.3">1811–1816: artesanos textiles rompen máquinas. Inglaterra moviliza 12.000 soldados y castiga con la muerte romper una máquina. A la larga, el empleo textil creció. Pero el corto plazo fue muy largo.</p>
+  </div>
+  <div class="frag" data-step="1">
+    <svg class="en-chart" viewBox="0 0 1080 420">
+      <path data-draw data-dur="0.8" d="M60 360 L1000 360 M60 360 L60 20" stroke="rgba(236,227,207,.35)" stroke-width="2"/>
+      <path data-anim="fade" data-delay="1.6" d="M60 330 L860 70 L860 280 Z" fill="rgba(210,75,67,.2)"/>
+      <path data-draw data-dur="1.6" data-delay="0.2" d="M60 330 L860 70" stroke="#F2C38F" stroke-width="5" stroke-linecap="round"/>
+      <path data-draw data-dur="1.6" data-delay="0.4" d="M60 330 L860 280" stroke="#8DB5A2" stroke-width="5" stroke-linecap="round"/>
+      <text data-anim="fade" data-delay="1.4" x="880" y="80" class="ch-big" style="fill:#F2C38F">+46%</text>
+      <text data-anim="fade" data-delay="1.4" x="880" y="116" class="ch-lbl">producción por trabajador</text>
+      <text data-anim="fade" data-delay="1.5" x="880" y="292" class="ch-big" style="fill:#8DB5A2">+12%</text>
+      <text data-anim="fade" data-delay="1.5" x="880" y="328" class="ch-lbl">salario real</text>
+      <text data-anim="fade" data-delay="0.6" x="60" y="398" class="ch-lbl">1780</text>
+      <text data-anim="fade" data-delay="0.6" x="860" y="398" text-anchor="middle" class="ch-lbl">1840</text>
+      <text data-anim="fade" data-delay="1.8" x="560" y="250" text-anchor="middle" class="ch-lbl" style="fill:#F4A49C;font-size:26px">la «pausa de Engels»</text>
+    </svg>
+    <p class="src" data-anim="fade" data-delay="1.9" style="position:absolute;left:720px;top:955px">Robert C. Allen (2009), con datos de Crafts-Harley y Feinstein</p>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>8 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    <div class="credit" style="right:24px;bottom:16px;text-align:right">«The Leader of the Luddites», 1812. Dominio público</div>
+  </div>
+  <div id="s09" class="scene clip" data-composition-id="s09" data-start="27.5" data-duration="7.5" data-label="El ritmo" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:150px" data-anim="fade">Lo que hoy sí es diferente</h2>
+  <div class="pace">
+    <div class="pace-line" data-anim="mask" data-dur="1.6"></div>
+    
+    <div class="frag" data-step="1"><div class="pt2" style="left:0px">
+      <div class="dotp" data-anim="zoom"></div>
+      <div class="yr" data-anim="fade">~10.000 a.C.</div><div class="what" data-anim="fade">La siembra</div>
+    </div></div>
+    <div class="frag" data-step="2"><div class="pt2" style="left:640px">
+      <div class="gap" data-anim="fade">milenios →</div><div class="dotp" data-anim="zoom"></div>
+      <div class="yr" data-anim="fade">1450</div><div class="what" data-anim="fade">La imprenta</div>
+    </div></div>
+    <div class="frag" data-step="3"><div class="pt2" style="left:1010px">
+      <div class="gap" data-anim="fade">300 años →</div><div class="dotp" data-anim="zoom"></div>
+      <div class="yr" data-anim="fade">1785</div><div class="what" data-anim="fade">El telar mecánico</div>
+    </div></div>
+    <div class="frag" data-step="4"><div class="pt2" style="left:1240px">
+      <div class="gap" data-anim="fade">200 años →</div><div class="dotp" data-anim="zoom"></div>
+      <div class="yr" data-anim="fade">2000s</div><div class="what" data-anim="fade">Internet y<br>automatización</div>
+    </div></div>
+    <div class="frag" data-step="5"><div class="pt2 now" style="left:1480px">
+      <div class="gap" data-anim="fade">20 años →</div><div class="dotp" data-anim="zoom"></div>
+      <div class="yr" data-anim="fade">2020s</div><div class="what" data-anim="fade">IA generativa</div>
+    </div></div>
+  </div>
+  <div class="frag" data-step="6">
+    <div class="pace-foot">
+      <div class="t" data-anim="fade">La transformación del trabajo no es nueva, y la IA no es la excepción. <b class="copper">Lo nuevo es la velocidad.</b></div>
+      <div class="wef" data-anim="fade" data-delay="0.3"><div class="n"><span data-count="39" data-suffix="%">39%</span></div><p>de las habilidades clave cambiará para 2030 (WEF, Future of Jobs 2025).</p></div>
+    </div>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>9 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s10" class="scene clip story" data-story="decompose" data-composition-id="s10" data-start="35.0" data-duration="4.0" data-label="Hoy: el cargo se descompone" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:150px;width:1700px;font-size:64px" data-anim="fade">El cargo no desaparece: se descompone en tareas</h2>
+  <div class="dc-card"><b>Analista de RRHH</b><span>un cargo es un paquete de tareas</span></div>
+  <div class="dc-col" style="left:120px"><div class="dc-head" style="color:var(--ink-3)">Lo que absorbe la IA</div>
+    <span class="dc-chip old"><i></i>Filtrar CVs</span><span class="dc-chip old"><i></i>Responder consultas frecuentes</span><span class="dc-chip old"><i></i>Armar reportes</span><span class="dc-chip old"><i></i>Agendar entrevistas</span></div>
+  <div class="dc-col" style="left:1040px"><div class="dc-head copper">Lo que crece, y lo que nace</div>
+    <span class="dc-chip grow"><i></i>Diseñar la experiencia del colaborador</span><span class="dc-chip grow"><i></i>Analizar datos de personas</span><span class="dc-chip new"><i></i>Gobernar el uso de la IA</span><span class="dc-chip new"><i></i>Acompañar el cambio</span></div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>10 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s11" class="scene clip" data-composition-id="s11" data-start="39.0" data-duration="3.5" data-label="Lo que ya pasó en empresas" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:150px" data-anim="fade">Lo que ya pasó en empresas que conocen</h2>
+  <div class="co-grid">
+    <div class="co" data-anim="fade" data-delay="0.2"><div class="who">Bancos y cajeros automáticos</div><div class="n" style="white-space:nowrap;font-size:52px"><span style="font-family:'Work Sans',sans-serif;font-weight:500">×</span>2 cajeros humanos</div><p>Con los cajeros automáticos, abrir sucursales se abarató. Hubo más sucursales y el cajero pasó de contar billetes a asesorar.</p><p class="src">James Bessen, EE.&nbsp;UU., 1970–2010</p></div>
+    <div class="frag" data-step="1"><div class="co" data-anim="fade"><div class="who">IBM, Recursos Humanos</div><div class="n">~200 puestos</div><p>de RRHH pasaron a agentes de IA (AskHR). Según su CEO, ese ahorro se reinvirtió en contratar programadores y vendedores.</p><p class="src">Arvind Krishna, mayo de 2025</p></div></div>
+    <div class="frag" data-step="2"><div class="co" data-anim="fade"><div class="who">Klarna, atención al cliente</div><div class="n">Ida y vuelta</div><p>En 2024 su IA hacía «el trabajo de 700 agentes». En 2025 anunció que volvería a contratar personas porque la calidad cayó.</p><p class="src">Klarna, 2024–2025</p></div></div>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>11 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s12" class="scene clip" data-composition-id="s12" data-start="42.5" data-duration="4.0" data-label="Lo que la IA no puede hacer" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:150px;width:1700px" data-anim="fade">Lo que la IA no puede hacer, todavía</h2>
+  <div class="caps">
+    <div class="cap" data-anim="fade" data-delay="0.30"><svg viewBox="0 0 80 80" style="width:70px;height:70px;overflow:visible" fill="none" stroke="#D2915D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path data-draw d="M40 70 C 8 48, 6 22, 22 14 C 32 9, 40 16, 40 24 C 40 16, 48 9, 58 14 C 74 22, 72 48, 40 70 Z" /></svg><h3>No lee emociones</h3><p>Un gesto no revela una emoción de forma confiable: una sonrisa puede ser sumisión. Por eso la UE prohíbe el reconocimiento de emociones en el trabajo.</p><p class="src">Barrett et al., 2019; EU AI Act</p></div>
+    <div class="cap" data-anim="fade" data-delay="0.45"><svg viewBox="0 0 80 80" style="width:70px;height:70px;overflow:visible" fill="none" stroke="#D2915D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path data-draw d="M4 40 L76 40" /><path data-draw d="M20 40 L36 12 L46 26 L52 20 L62 40" /><path data-draw d="M14 40 L26 70 L50 76 L66 40" stroke-dasharray="4 5" /></svg><h3>No tiene tu conocimiento tácito</h3><p>«Sabemos más de lo que podemos decir.» La cultura, los códigos y la idiosincrasia de un equipo no están en ningún dataset.</p><p class="src">Polanyi, 1966; Autor, 2014</p></div>
+    <div class="cap" data-anim="fade" data-delay="0.60"><svg viewBox="0 0 80 80" style="width:70px;height:70px;overflow:visible" fill="none" stroke="#D2915D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle data-draw cx="26" cy="26" r="11" /><circle data-draw cx="56" cy="26" r="11" /><path data-draw d="M6 70 C 8 50, 44 50, 46 70" /><path data-draw d="M36 70 C 38 50, 74 50, 76 70" /></svg><h3>No decide sin sesgos</h3><p>Con CV idénticos, 22 modelos líderes prefirieron a la candidata con nombre de mujer (57%) y al primero de la lista (64%).</p><p class="src">Rozado, 2025</p></div>
+    <div class="cap" data-anim="fade" data-delay="0.75"><svg viewBox="0 0 80 80" style="width:70px;height:70px;overflow:visible" fill="none" stroke="#D2915D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path data-draw d="M4 40 C 20 14, 60 14, 76 40 C 60 66, 20 66, 4 40 Z" /><circle data-draw cx="40" cy="40" r="12" /></svg><h3>No tiene conciencia</h3><p>Ningún sistema actual es consciente: no vive las consecuencias de lo que decide.</p><p class="src">Butlin, Bengio et al., 2023; LeCun, 2022</p></div>
+    <div class="cap" data-anim="fade" data-delay="0.90"><svg viewBox="0 0 80 80" style="width:70px;height:70px;overflow:visible" fill="none" stroke="#D2915D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path data-draw d="M56 8 L72 24 L32 64 L14 68 L18 50 Z" /><path data-draw d="M48 16 L64 32" /><path data-draw d="M6 78 C 22 70, 34 82, 50 74 S 70 72, 78 76" /></svg><h3>No puede responder moralmente</h3><p>Cuando una máquina decide sola, se abre una brecha: nadie responde. La firma tiene que ser de una persona.</p><p class="src">Matthias, 2004</p></div></div>
+  <p class="cp-foot" data-anim="fade" data-delay="1.2">Eso es, justamente, el trabajo de Recursos Humanos.</p>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>12 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s13" class="scene clip" data-composition-id="s13" data-start="46.5" data-duration="3.5" data-label="La tensión honesta" data-width="1920" data-height="1080">
+    
+  <figure class="pl" style="left:120px;top:140px;width:500px;height:820px" data-anim="plate"><div class="pl-img"><img data-kb src="assets/duo/older-worker.jpg" alt="" style="object-position:30% 30%"></div><figcaption><span class="pl-n">Lám. IV.</span> Trabajador de mercado.</figcaption></figure>
+  <div class="tn">
+    <p class="tn-1" data-anim="fade">El trabajador de 52 años, con 20 en el mismo puesto, no se consuela con que en 30 años habrá industrias nuevas. <span class="copper">Su pausa de Engels es su vida.</span></p>
+    <div class="frag" data-step="1"><div class="tn-2" data-anim="fade"><div class="k">La empresa</div><p>Mantener relevantes a sus colaboradores en la medida de lo posible: formar antes de que sea urgente y moverlos hacia las tareas que crecen.</p></div></div>
+    <div class="frag" data-step="2"><div class="tn-3" data-anim="fade"><div class="k">La persona</div><p>Su interés en mantenerse actualizada es propio. Nadie puede aprender por otro.</p></div></div>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>13 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    <div class="credit" style="right:24px;bottom:16px;text-align:right">Foto: Wilfredor, CC0, Wikimedia Commons</div>
+  </div>
+  <div id="s14" class="scene clip" data-composition-id="s14" data-start="50.0" data-duration="3.5" data-label="La síntesis" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:150px" data-anim="fade">Entonces, ¿nos va a reemplazar?</h2>
+  <div class="sy">
+    <div class="sy-row" data-anim="fade" data-delay="0.2"><div class="k">Tesis</div><div class="t" style="color:var(--ink-3)">«La IA va a reemplazar a RRHH.»</div></div>
+    <div class="frag" data-step="1"><div class="sy-row" data-anim="fade"><div class="k">Antítesis</div><div class="t">El trabajo nunca desaparece… pero la transición no es gratis.</div></div></div>
+    <div class="frag" data-step="2"><div class="sy-row syn" data-anim="fade"><div class="k">Síntesis</div><div><div class="t">El trabajo se descompone en tareas y se recompone. Y se conserva:</div>
+      <div class="sy-keep"><span data-anim="zoom" data-delay="0.6">la posibilidad de trabajar</span><span data-anim="zoom" data-delay="0.75">la experiencia</span><span data-anim="zoom" data-delay="0.9">el saber</span></div></div></div></div>
+  </div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>14 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s15" class="scene clip" data-composition-id="s15" data-start="53.5" data-duration="4.0" data-label="Qué hacer el lunes" data-width="1920" data-height="1080">
+    
+  <h2 class="h" style="position:absolute;left:120px;top:140px" data-anim="fade">Qué hacer el lunes</h2>
+  <div class="monday">
+    <div class="mi" data-anim="fade" data-delay="0.20"><div class="n">1</div><div><b>Mapea tareas, no cargos</b><span><em>porque</em> la IA absorbe tareas, no puestos. Descompón cada cargo y marca qué tareas crecen.</span></div></div>
+    <div class="mi" data-anim="fade" data-delay="0.35"><div class="n">2</div><div><b>Documenta el saber antes de automatizar</b><span><em>porque</em> el conocimiento tácito es lo que la IA no tiene, y se va con la persona si no lo capturas.</span></div></div>
+    <div class="mi" data-anim="fade" data-delay="0.50"><div class="n">3</div><div><b>Forma antes de que sea urgente</b><span><em>porque</em> las tareas nuevas premian a quien llega preparado, y la pausa de Engels castiga a quien llega tarde.</span></div></div>
+    <div class="mi" data-anim="fade" data-delay="0.65"><div class="n">4</div><div><b>Rediseña cada rol alrededor de lo humano</b><span><em>porque</em> lo que crece es emoción, contexto y criterio. Mueve a las personas hacia esas tareas.</span></div></div>
+    <div class="mi" data-anim="fade" data-delay="0.80"><div class="n">5</div><div><b>Haz explícito el pacto de actualización</b><span><em>porque</em> la empresa abre caminos y la persona los recorre. Ninguna de las dos puede sola.</span></div></div></div>
+
+    
+    <div class="top"><span>Los empleos no desaparecen</span><span>15 / 16</span></div>
+    <div class="foot"><div class="logos"><img src="assets/brand/brdgit-silverlogic-cream.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-cream.svg" alt="SPN Software" style="height:38px"></div></div>
+    
+  </div>
+  <div id="s16" class="scene clip" data-composition-id="s16" data-start="57.5" data-duration="3.5" data-label="Cierre" data-width="1920" data-height="1080">
+    
+  <div class="fin">
+    <p data-anim="fade">Nada se pierde, todo se transforma. En el trabajo tampoco se pierde lo esencial: la posibilidad de trabajar, la experiencia y el saber.</p>
+    <div class="frag" data-step="1"><p data-anim="fade">La pausa de Engels duró más de medio siglo.</p></div>
+    <div class="frag" data-step="2"><p class="last" data-anim="rise">Cuánto dure la nuestra depende de lo que hagamos desde Recursos Humanos.</p></div>
+  </div>
+  <div class="fin-foot">
+    <div class="fin-who" data-anim="fade" data-delay="0.8"><img src="assets/brand/qr-linkedin.svg" alt="QR a LinkedIn de Ariel González Batista"><div><b>Ariel González Batista</b><span>BRDGIT, a SilverLogic company. SPN Software.</span><span>Escanea para conectar en LinkedIn</span></div></div>
+    <div class="logos" data-anim="fade" data-delay="1.0"><img src="assets/brand/brdgit-silverlogic-cream.svg" style="height:40px" alt="BRDGIT"><img src="assets/brand/spn-cream.svg" style="height:48px" alt="SPN Software"></div>
+  </div>
+
+    
+    
+  </div>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+tl.fromTo("#s02 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 5.1);
+tl.fromTo("#s03 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 7.6);
+tl.fromTo("#s08 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 26.1);
+tl.fromTo("#s09 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 28.6);
+tl.fromTo("#s09 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 29.6);
+tl.fromTo("#s09 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 30.6);
+tl.fromTo("#s09 .frag[data-step=\"4\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 31.6);
+tl.fromTo("#s09 .frag[data-step=\"5\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 32.6);
+tl.fromTo("#s09 .frag[data-step=\"6\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 33.6);
+tl.fromTo("#s11 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 40.1);
+tl.fromTo("#s11 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 41.1);
+tl.fromTo("#s13 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 47.6);
+tl.fromTo("#s13 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 48.6);
+tl.fromTo("#s14 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 51.1);
+tl.fromTo("#s14 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 52.1);
+tl.fromTo("#s16 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 58.6);
+tl.fromTo("#s16 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 59.6);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["deck"] = tl;
+</script>
+<script src="assets/story-empleos.js"></script>
+<script src="assets/live-motion.js"></script>
+</body>
+</html>
