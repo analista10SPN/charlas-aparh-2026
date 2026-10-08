@@ -91,7 +91,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 .hk-src { position:absolute; left:126px; top:770px; width:1500px; font-size:20px; line-height:1.5; color:var(--ink-3); }
 .hk-n { position:absolute; left:120px; top:400px; font-family:"Archivo",sans-serif; font-stretch:68%; font-weight:850; font-size:200px; line-height:.9; color:var(--ink); }
 .hk-2 { position:absolute; left:126px; top:650px; width:1640px; max-width:none; font-size:26px; line-height:1.45; }
-.hk-hand { position:absolute; left:120px; top:818px; font-size:92px; padding-right:24px; }
+.hk-hand { position:absolute; left:120px; top:820px; font-size:74px; white-space:nowrap; padding-right:24px; }
 
 /* ---------- círculos ---------- */
 .ci-copy { position:absolute; left:120px; top:200px; width:720px; }
@@ -136,6 +136,14 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 .legend span { display:inline-flex; align-items:center; gap:10px; }
 .legend i { width:14px; height:14px; border-radius:50%; }
 .st .r { margin-top:16px; font-size:21px; line-height:1.4; color:var(--m3); font-style:italic; }
+
+.pp-head { position:absolute; left:120px; top:150px; width:1700px; }
+.pp-card { position:absolute; left:120px; top:330px; width:1000px; background:#fff; box-shadow:0 18px 50px rgba(21,23,28,.16); transform:rotate(-1.2deg); }
+.pp-card img { display:block; width:100%; }
+.pp-tag { position:absolute; left:126px; top:910px; font-size:21px; color:var(--ink-3); }
+.pp-nums { position:absolute; left:1220px; right:120px; top:330px; display:flex; flex-direction:column; gap:34px; }
+.pp-n .v { font-family:"Archivo",sans-serif; font-stretch:70%; font-weight:800; font-size:104px; line-height:.9; }
+.pp-n p { font-size:24px; line-height:1.4; color:var(--ink-2); margin-top:8px; }
 
 /* ---------- pregunta ---------- */
 .pq-stats { position:absolute; left:120px; top:150px; display:flex; gap:110px; align-items:flex-end; }
@@ -183,19 +191,27 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 .cs-big span { font-size:22px; opacity:.85; }
 .cs-photo::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 45%,rgba(21,23,28,.85)); }
 
-/* ---------- EU ---------- */
-.eu-photo { left:0; right:0; top:0; height:300px; }
-.eu-photo::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(238,240,243,0) 40%,var(--bg)); }
-.eu-h { position:absolute; left:120px; top:240px; width:1700px; font-size:76px; }
-.eu-cols { position:absolute; left:120px; right:120px; top:480px; display:grid; grid-template-columns:1fr 1fr; gap:90px; }
-.eu-word { font-family:"Archivo",sans-serif; font-stretch:70%; font-weight:850; font-size:130px; line-height:.85; }
-.eu-list { list-style:none; margin-top:30px; }
-.eu-list li { font-size:28px; line-height:1.35; padding:12px 0; border-top:1px solid var(--rule); color:var(--ink); }
-.eu-note { padding:26px 0; border-top:2px solid var(--ink); }
-.eu-note .k { font-size:22px; font-weight:600; }
-.eu-note p { font-size:30px; line-height:1.38; margin-top:8px; }
-.eu-note.ban .k { color:var(--red); }
-.eu-q { position:absolute; left:120px; right:120px; bottom:118px; font-size:34px; font-style:italic; color:var(--ink); background:var(--bg); padding-top:12px; }
+/* ---------- reglas (UE + Latinoamérica) ---------- */
+.rg-h { position:absolute; left:120px; top:150px; width:1700px; }
+.rg-sub { position:absolute; left:124px; top:262px; width:1500px; font-size:30px; line-height:1.4; color:var(--ink-2); }
+.rg-k { font-size:22px; font-weight:600; color:var(--ink-3); padding-bottom:12px; border-bottom:2px solid var(--ink); }
+.rg-eu { position:absolute; left:120px; top:360px; width:700px; }
+.eu-word { font-family:"Archivo",sans-serif; font-stretch:70%; font-weight:850; font-size:112px; line-height:.9; margin-top:22px; }
+.eu-list { list-style:none; margin-top:16px; }
+.eu-list li { font-size:26px; line-height:1.3; padding:11px 0; border-top:1px solid var(--rule); color:var(--ink); }
+.rg-foot { margin-top:16px; font-size:21px; line-height:1.45; color:var(--ink-2); }
+.rg-foot b { color:var(--red); }
+.rg-la { position:absolute; left:920px; right:120px; top:360px; }
+.lr { padding:13px 0; border-top:1px solid var(--rule); }
+.rg-k + .lr { border-top:0; }
+.lr-h { display:flex; align-items:center; gap:14px; }
+.lr-h b { font-size:27px; font-weight:600; }
+.lr p { font-size:21px; line-height:1.4; color:var(--ink-2); margin-top:4px; }
+.pill { font-size:16px; font-weight:600; padding:4px 12px; border-radius:999px; }
+.pill.ok { background:rgba(30,142,87,.12); color:var(--ok); }
+.pill.warn { background:rgba(201,138,18,.14); color:#A06D08; }
+.pill.mid { background:rgba(29,78,200,.10); color:#1D4EC8; }
+.rg-out { position:absolute; left:120px; right:120px; bottom:118px; font-size:38px; font-weight:500; color:var(--ink); }
 
 /* ---------- criterio ---------- */
 .cr-intro { position:absolute; left:120px; top:160px; font-size:38px; color:var(--ink-2); }
@@ -217,8 +233,8 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 </style>
 </head>
 <body>
-<script type="application/hyperframes-slideshow+json">{"slides":[{"sceneId":"s01"},{"sceneId":"st1"},{"sceneId":"st2"},{"sceneId":"st3"},{"sceneId":"st4"},{"sceneId":"st5"},{"sceneId":"s02","fragments":[54.5,55.5,56.5]},{"sceneId":"s03","fragments":[58,59,60,61,62]},{"sceneId":"s04","fragments":[63.5,64.5]},{"sceneId":"s05"},{"sceneId":"s06","fragments":[70,71,72]},{"sceneId":"s07","fragments":[73.5,74.5,75.5,76.5,77.5]},{"sceneId":"s08","fragments":[79,80,81,82]},{"sceneId":"s09","fragments":[83.5,84.5,85.5,86.5]},{"sceneId":"s10","fragments":[88,89]},{"sceneId":"s10b"},{"sceneId":"s11"},{"sceneId":"s12"}]}</script>
-<div id="root" data-composition-id="deck" data-start="0" data-duration="102.0" data-width="1920" data-height="1080">
+<script type="application/hyperframes-slideshow+json">{"slides":[{"sceneId":"s01"},{"sceneId":"st1"},{"sceneId":"st2"},{"sceneId":"st3"},{"sceneId":"st4"},{"sceneId":"st5"},{"sceneId":"s02","fragments":[54.5,55.5,56.5]},{"sceneId":"s03","fragments":[58,59,60,61,62]},{"sceneId":"s04","fragments":[63.5,64.5]},{"sceneId":"s05"},{"sceneId":"s05p"},{"sceneId":"s06","fragments":[74,75,76]},{"sceneId":"s07","fragments":[77.5,78.5,79.5,80.5,81.5]},{"sceneId":"s08","fragments":[83,84,85,86]},{"sceneId":"s09","fragments":[87.5,88.5,89.5,90.5]},{"sceneId":"s10","fragments":[92,93,94]},{"sceneId":"s10b"},{"sceneId":"s11"},{"sceneId":"s12"}]}</script>
+<div id="root" data-composition-id="deck" data-start="0" data-duration="107.0" data-width="1920" data-height="1080">
   <div class="ambient" id="ambient"></div>
 
   <div id="s01" class="scene clip" data-composition-id="s01" data-start="0.0" data-duration="4.0" data-label="Portada" data-width="1920" data-height="1080">
@@ -439,10 +455,10 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="frag" data-step="1"><div class="hk-n" data-anim="fade"><span class="mk">€825.000.000<svg class="mk-ring" viewBox="0 0 1000 320" preserveAspectRatio="none"><path data-draw data-dur="0.9" data-delay="0.6" d="M970.9 110.9 L991.3 127.7 L996.1 145.4 L990.0 162.8 L979.5 179.6 L967.2 196.1 L950.4 212.3 L924.1 227.4 L886.4 240.4 L840.5 250.9 L792.3 259.8 L745.6 268.6 L699.5 278.1 L650.2 287.4 L595.0 294.7 L535.0 298.2 L473.4 297.7 L412.8 294.6 L353.2 290.5 L293.8 285.6 L235.7 278.9 L183.5 269.2 L141.9 256.1 L112.0 240.9 L90.0 225.3 L69.4 210.3 L46.9 195.7 L25.5 180.7 L11.5 164.8 L10.0 148.5 L20.3 132.6 L37.2 117.1 L56.1 101.7 L77.1 86.1 L105.0 70.8 L144.7 57.5 L196.8 47.5 L256.7 41.4 L318.5 37.8 L378.8 35.1 L438.1 32.5 L498.3 30.8 L559.2 31.5 L618.5 35.4 L674.1 41.9 L726.8 49.5 L779.8 56.9 L835.2 64.4 L890.2 73.3 L938.1 84.9 L972.7 99.2 L992.8 115.2 L1002.9 131.6 L1008.8 147.8 L1012.1 163.9 L1009.3 180.0 L994.5 195.7 L965.9 209.9" fill="none" stroke="#D7263D" stroke-width="8" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span></div>
     <p class="body hk-2" data-anim="fade" data-delay="0.3">de multa, impuesta el 21 de agosto de 2026 por la autoridad neerlandesa de protección de datos. Origen: una denuncia de más de 170 conductores franceses, presentada en 2020 por la Ligue des droits de l'Homme.</p>
     <p class="hk-src" data-anim="fade" data-delay="0.5">Fuente: Autoriteit Persoonsgegevens (Países Bajos) y CNIL (Francia), comunicados de agosto de 2026. Uber apeló la decisión.</p></div>
-  <div class="frag" data-step="2"><p class="hand hk-hand" data-anim="write" data-dur="1.2">¿Quién tomó esa decisión?</p></div>
+  <div class="frag" data-step="2"><p class="hand hk-hand" data-anim="write" data-dur="1.4">¿Cuántas decisiones así ya toma un algoritmo en tu empresa?</p></div>
 
     
-    <div class="top"><span>El costo de un error</span><span>7 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>7 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
@@ -485,7 +501,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   </div>
 
     
-    <div class="top"><span>El costo de un error</span><span>8 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>8 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
@@ -509,7 +525,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   </div>
 
     
-    <div class="top"><span>El costo de un error</span><span>9 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>9 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
@@ -518,16 +534,34 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div id="s05" class="scene clip" data-composition-id="s05" data-start="65.5" data-duration="4.0" data-label="6 etapas del ciclo de vida" data-width="1920" data-height="1080">
     
   <h2 class="h lc-head" data-anim="fade">La IA ya toca cada etapa del ciclo de vida del empleado</h2>
-  <div class="lc"><div class="st" data-anim="fade" data-delay="0.42"><div class="n">1</div><h3>Reclutamiento</h3><div class="chips"><span class="chip"><i></i>Descripciones de puesto</span><span class="chip"><i></i>Publicación multicanal</span><span class="chip"><i></i>Búsqueda de perfiles</span></div></div><div class="st" data-anim="fade" data-delay="0.54"><div class="n">2</div><h3>Selección</h3><div class="chips"><span class="chip"><i></i>Filtro de requisitos mínimos</span><span class="chip"><i></i>Ranking de candidatos</span><span class="chip"><i></i>Rechazo final</span></div></div><div class="st" data-anim="fade" data-delay="0.66"><div class="n">3</div><h3>Onboarding</h3><div class="chips"><span class="chip"><i></i>Asistente de inducción</span><span class="chip"><i></i>Recorridos por rol</span><span class="chip"><i></i>Seguimiento de avance</span></div></div><div class="st" data-anim="fade" data-delay="0.78"><div class="n">4</div><h3>Desarrollo</h3><div class="chips"><span class="chip"><i></i>Recomendación de capacitación</span><span class="chip"><i></i>Alertas de burnout</span><span class="chip"><i></i>Evaluación de desempeño</span></div></div><div class="st" data-anim="fade" data-delay="0.90"><div class="n">5</div><h3>Fidelización</h3><div class="chips"><span class="chip"><i></i>Predicción de fuga</span><span class="chip"><i></i>Plan de retención</span><span class="chip"><i></i>Propuesta salarial</span></div><div class="r">C-index 0,89 en nuestra investigación publicada en IEEE ICMLA 2025</div></div><div class="st" data-anim="fade" data-delay="1.02"><div class="n">6</div><h3>Offboarding</h3><div class="chips"><span class="chip"><i></i>Entrevistas de salida</span><span class="chip"><i></i>Traspaso de conocimiento</span><span class="chip"><i></i>Decisión de desvinculación</span></div></div></div>
+  <div class="lc"><div class="st" data-anim="fade" data-delay="0.42"><div class="n">1</div><h3>Reclutamiento</h3><div class="chips"><span class="chip"><i></i>Descripciones de puesto</span><span class="chip"><i></i>Publicación multicanal</span><span class="chip"><i></i>Búsqueda de perfiles</span></div></div><div class="st" data-anim="fade" data-delay="0.54"><div class="n">2</div><h3>Selección</h3><div class="chips"><span class="chip"><i></i>Filtro de requisitos mínimos</span><span class="chip"><i></i>Ranking de candidatos</span><span class="chip"><i></i>Rechazo final</span></div></div><div class="st" data-anim="fade" data-delay="0.66"><div class="n">3</div><h3>Onboarding</h3><div class="chips"><span class="chip"><i></i>Asistente de inducción</span><span class="chip"><i></i>Recorridos por rol</span><span class="chip"><i></i>Seguimiento de avance</span></div></div><div class="st" data-anim="fade" data-delay="0.78"><div class="n">4</div><h3>Desarrollo</h3><div class="chips"><span class="chip"><i></i>Recomendación de capacitación</span><span class="chip"><i></i>Alertas de burnout</span><span class="chip"><i></i>Evaluación de desempeño</span></div></div><div class="st" data-anim="fade" data-delay="0.90"><div class="n">5</div><h3>Fidelización</h3><div class="chips"><span class="chip"><i></i>Predicción de fuga</span><span class="chip"><i></i>Plan de retención</span><span class="chip"><i></i>Propuesta salarial</span></div></div><div class="st" data-anim="fade" data-delay="1.02"><div class="n">6</div><h3>Offboarding</h3><div class="chips"><span class="chip"><i></i>Entrevistas de salida</span><span class="chip"><i></i>Traspaso de conocimiento</span><span class="chip"><i></i>Decisión de desvinculación</span></div></div></div>
 
     
-    <div class="top"><span>El costo de un error</span><span>10 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>10 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s06" class="scene clip" data-composition-id="s06" data-start="69.5" data-duration="3.5" data-label="La pregunta correcta" data-width="1920" data-height="1080">
+  <div id="s05p" class="scene clip" data-composition-id="s05p" data-start="69.5" data-duration="4.0" data-label="Fidelización: el paper" data-width="1920" data-height="1080">
+    
+  <h2 class="h pp-head" data-anim="fade">Fidelización: anticipar quién se va, y cuándo</h2>
+  <div class="pp-card" data-anim="plate"><img src="assets/img/paper-icmla.png" alt="Artículo en IEEE Xplore: Survival Analysis for Employee Retention Prediction in Retail and Trade Sector Organizations"></div>
+  <p class="pp-tag" data-anim="fade" data-delay="0.6">Nuestra investigación en IEEE Xplore, ICMLA 2025</p>
+  <div class="pp-nums">
+    <div class="pp-n" data-anim="fade" data-delay="0.5"><div class="v"><span data-count="4953" data-sep=".">4.953</span></div><p>empleados analizados</p></div>
+    <div class="pp-n" data-anim="fade" data-delay="0.7"><div class="v machine-text">0,89</div><p>C-index: acierta en 89 de cada 100 pares quién se va primero</p></div>
+    <div class="pp-n" data-anim="fade" data-delay="0.9"><div class="v">2 <span style="color:var(--ink-3)">vs.</span> 6+</div><p>distingue a quien se va antes de 2 años de quien se queda 6 o más</p></div>
+  </div>
+
+    
+    <div class="top"><span>El costo de un error</span><span>11 / 19</span></div>
+    <div class="foot">
+      <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
+    </div>
+    
+  </div>
+  <div id="s06" class="scene clip" data-composition-id="s06" data-start="73.5" data-duration="3.5" data-label="La pregunta correcta" data-width="1920" data-height="1080">
     
   <div class="pq-stats">
     <div class="pq-stat" data-anim="fade"><div class="n machine-text" data-count="88" data-suffix="%">88%</div><p>de las organizaciones dice usar IA en al menos una función. Encuesta global de McKinsey, 2025: 1.993 participantes de 105 países.</p></div>
@@ -541,13 +575,13 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="frag" data-step="2"><p class="pq-reveal" data-anim="fade">La historia de Julien: ninguna persona revisó su caso. <b>La decisión la tomó el sistema, solo.</b></p></div>
 
     
-    <div class="top"><span>El costo de un error</span><span>11 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>12 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s07" class="scene clip" data-composition-id="s07" data-start="73.0" data-duration="5.5" data-label="La matriz de reversibilidad" data-width="1920" data-height="1080">
+  <div id="s07" class="scene clip" data-composition-id="s07" data-start="77.0" data-duration="5.5" data-label="La matriz de reversibilidad" data-width="1920" data-height="1080">
     
   <div class="mx-copy">
     <h2 class="h" data-anim="fade">La matriz de reversibilidad</h2>
@@ -567,13 +601,13 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   </div>
 
     
-    <div class="top"><span>El costo de un error</span><span>12 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>13 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s08" class="scene clip" data-composition-id="s08" data-start="78.5" data-duration="4.5" data-label="Caso 1: Uber" data-width="1920" data-height="1080">
+  <div id="s08" class="scene clip" data-composition-id="s08" data-start="82.5" data-duration="4.5" data-label="Caso 1: Uber" data-width="1920" data-height="1080">
     
   <div class="photo cs-photo" data-anim="plate"><svg viewBox="0 0 600 1080" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="600" height="1080" fill="#1B2130"/><line x1="0" y1="0" x2="-22" y2="80" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="16" y1="848" x2="-6" y2="928" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="32" y1="616" x2="10" y2="696" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="48" y1="384" x2="26" y2="464" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="64" y1="152" x2="42" y2="232" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="80" y1="1000" x2="58" y2="1080" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="96" y1="768" x2="74" y2="848" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="112" y1="536" x2="90" y2="616" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="128" y1="304" x2="106" y2="384" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="144" y1="72" x2="122" y2="152" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="160" y1="920" x2="138" y2="1000" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="176" y1="688" x2="154" y2="768" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="192" y1="456" x2="170" y2="536" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="208" y1="224" x2="186" y2="304" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="224" y1="1072" x2="202" y2="1152" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="240" y1="840" x2="218" y2="920" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="256" y1="608" x2="234" y2="688" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="272" y1="376" x2="250" y2="456" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="288" y1="144" x2="266" y2="224" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="304" y1="992" x2="282" y2="1072" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="320" y1="760" x2="298" y2="840" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="336" y1="528" x2="314" y2="608" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="352" y1="296" x2="330" y2="376" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="368" y1="64" x2="346" y2="144" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="384" y1="912" x2="362" y2="992" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="400" y1="680" x2="378" y2="760" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="416" y1="448" x2="394" y2="528" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="432" y1="216" x2="410" y2="296" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="448" y1="1064" x2="426" y2="1144" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="464" y1="832" x2="442" y2="912" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="480" y1="600" x2="458" y2="680" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="496" y1="368" x2="474" y2="448" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="512" y1="136" x2="490" y2="216" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="528" y1="984" x2="506" y2="1064" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="544" y1="752" x2="522" y2="832" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="560" y1="520" x2="538" y2="600" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="576" y1="288" x2="554" y2="368" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="592" y1="56" x2="570" y2="136" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="608" y1="904" x2="586" y2="984" stroke="#AEBBCB" stroke-width="2" opacity=".35"/><line x1="624" y1="672" x2="602" y2="752" stroke="#AEBBCB" stroke-width="2" opacity=".35"/>
@@ -581,23 +615,23 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
     <g id="cs-car" transform="translate(80 615.1) scale(1.05)"><g class="cb"><ellipse cx="215" cy="140" rx="210" ry="10" fill="#000" opacity=".28"/><path d="M12 118 C12 103 19 95 36 93 L84 88 C106 62 128 44 160 40 L246 38 C274 38 294 52 318 84 L398 91 C414 94 424 103 424 116 L424 128 C424 134 420 138 414 138 L22 138 C16 138 12 134 12 128 Z" fill="#2A2E37"/><path d="M98 88 C116 64 134 50 160 48 L234 48 L234 88 Z" fill="#5B6573"/><path d="M244 48 C268 48 286 60 306 88 L244 88 Z" fill="#5B6573"/><path d="M40 100 L414 100" stroke="#000" stroke-opacity=".25" stroke-width="2"/><path d="M240 92 L240 134" stroke="#000" stroke-opacity=".25" stroke-width="2"/><g class="wheel" transform="translate(98 136)"><circle r="30" fill="#111318"/><circle r="15" fill="#9AA3AE"/><path d="M-15 0 L15 0 M0 -15 L0 15" stroke="#5B636E" stroke-width="3"/></g><g class="wheel" transform="translate(340 136)"><circle r="30" fill="#111318"/><circle r="15" fill="#9AA3AE"/><path d="M-15 0 L15 0 M0 -15 L0 15" stroke="#5B636E" stroke-width="3"/></g></g></g>
     <g transform="translate(300 360)"><circle r="96" fill="#D7263D"/><rect x="-40" y="-8" width="80" height="62" rx="10" fill="#fff"/><path d="M-26 -6 L-26 -34 C-26 -66 26 -66 26 -34 L26 -6" stroke="#fff" stroke-width="12" fill="none"/></g>
   </svg></div>
-  <div class="cs-big" data-anim="fade" data-delay="0.6"><div class="n" data-count="825" data-prefix="€" data-suffix="M">€825M</div><span>Multa del 21 de agosto de 2026</span></div>
+  <div class="cs-big" data-anim="fade" data-delay="0.6"><div class="n" data-count="171">171</div><span>conductores franceses denunciaron</span></div>
   <div class="cs-tab" data-anim="fade">Caso 1. Uber, Europa, 2018–2022</div>
   <h2 class="h cs-h" data-anim="fade">Un algoritmo desactivaba conductores y ninguna persona revisaba la decisión</h2>
   <div class="cs-rows">
-      <div class="frag" data-step="1"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--red)"></i>Consecuencia</div><p>€824,99 millones de multa, la segunda más alta en la historia del RGPD. Con dos multas previas por la misma denuncia, Uber acumula más de €1.100 millones.</p></div></div>
+      <div class="frag" data-step="1"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--red)"></i>Consecuencia</div><p>La segunda multa más alta en la historia del RGPD. Con dos multas previas por la misma denuncia, Uber acumula más de €1.100 millones.</p></div></div>
       <div class="frag" data-step="2"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--warn)"></i>Causa</div><p>El software vigilaba la conducción y las calificaciones. Ante sospecha de fraude o notas bajas, bloqueaba la cuenta, temporal o definitivamente, sin revisión humana y sin avisar que decidía una máquina.</p></div></div>
       <div class="frag" data-step="3"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--ok)"></i>Lo que debió pasar</div><p>Una persona revisa antes de cortar el ingreso de alguien, se explica la decisión y existe un canal real para apelar.</p></div></div></div>
   <div class="frag" data-step="3"><div class="cs-stamp"><div class="stamp" data-anim="stamp" data-delay="0.5">Firma humana obligatoria</div></div></div>
 
     
-    <div class="top on-dark"><span>El costo de un error</span><span>13 / 18</span></div>
+    <div class="top on-dark"><span>El costo de un error</span><span>14 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-white.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-white.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s09" class="scene clip" data-composition-id="s09" data-start="83.0" data-duration="4.5" data-label="Caso 2: Eightfold" data-width="1920" data-height="1080">
+  <div id="s09" class="scene clip" data-composition-id="s09" data-start="87.0" data-duration="4.5" data-label="Caso 2: Eightfold" data-width="1920" data-height="1080">
     
   <div class="photo cs-photo" data-anim="plate"><img data-kb src="assets/duo/cv-pile.jpg" alt="" style="object-position:62% 50%"></div>
   <div class="cs-big" data-anim="fade" data-delay="0.6"><div class="n">0 a 5</div><span>El puntaje que nadie podía ver</span></div>
@@ -610,54 +644,58 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="frag" data-step="3"><div class="cs-stamp"><div class="stamp" data-anim="stamp" data-delay="0.5">Firma humana obligatoria</div></div></div>
 
     
-    <div class="top on-dark"><span>El costo de un error</span><span>14 / 18</span></div>
+    <div class="top on-dark"><span>El costo de un error</span><span>15 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-white.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-white.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     <div class="credit" style="right:24px;bottom:16px;text-align:right">Foto: Niklas Bildhauer, CC BY-SA 2.0, Wikimedia Commons</div>
   </div>
-  <div id="s10" class="scene clip" data-composition-id="s10" data-start="87.5" data-duration="2.5" data-label="Caso 3: EU AI Act" data-width="1920" data-height="1080">
+  <div id="s10" class="scene clip" data-composition-id="s10" data-start="91.5" data-duration="3.5" data-label="Las reglas ya se están escribiendo" data-width="1920" data-height="1080">
     
-  <div class="photo eu-photo" data-anim="plate"><img data-kb src="assets/duo/eu-parliament.jpg" alt="" style="object-position:50% 60%"></div>
-  <h2 class="h eu-h" data-anim="fade">Caso 3. La regulación europea llegó antes que el criterio</h2>
-  <div class="eu-cols">
-    <div>
-      <div class="eu-word machine-text" data-anim="mask">Alto riesgo</div>
-      <ul class="eu-list">
-        <li data-anim="fade" data-delay="0.4">Reclutamiento y filtrado de candidatos</li>
-        <li data-anim="fade" data-delay="0.5">Decisiones de promoción y desvinculación</li>
-        <li data-anim="fade" data-delay="0.6">Asignación de tareas y evaluación de desempeño</li>
-        <li data-anim="fade" data-delay="0.7">Monitoreo de empleados</li>
-      </ul>
-    </div>
-    <div>
-      <div class="eu-note ban" data-anim="fade" data-delay="0.5"><div class="k">Prohibido desde febrero de 2025</div><p>Reconocimiento de emociones en el lugar de trabajo.</p></div>
-      <div class="eu-note" data-anim="fade" data-delay="0.65"><div class="k">Obligaciones de alto riesgo en empleo</div><p>Desde el 2 de diciembre de 2027. El Omnibus Digital (2026) las aplazó, no las eliminó.</p></div>
-    </div>
+  <h2 class="h rg-h" data-anim="fade">Las reglas ya se están escribiendo</h2>
+  <p class="rg-sub" data-anim="fade" data-delay="0.2">Como sociedad ya estamos definiendo qué decisiones no se le pueden dejar a una máquina sin control.</p>
+  <div class="rg-eu" data-anim="fade" data-delay="0.3">
+    <div class="rg-k">Unión Europea, AI Act</div>
+    <div class="eu-word machine-text" data-anim="mask" data-delay="0.4">Alto riesgo</div>
+    <ul class="eu-list">
+      <li>Reclutamiento y filtrado de candidatos</li>
+      <li>Promociones y desvinculaciones</li>
+      <li>Asignación de tareas y evaluación de desempeño</li>
+      <li>Monitoreo de empleados</li>
+    </ul>
+    <p class="rg-foot"><b>Prohibido</b> desde febrero de 2025: reconocer emociones en el trabajo. Obligaciones de alto riesgo: desde diciembre de 2027.</p>
   </div>
-  <div class="frag" data-step="1"><p class="eu-q" data-anim="fade">«La regulación no llegó porque la IA en RRHH sea mala. Llegó porque el criterio de cuándo usarla no existía.»</p></div>
+  <div class="frag" data-step="1"><div class="rg-la">
+    <div class="rg-k">Latinoamérica</div>
+        <div class="lr" data-anim="fade" data-delay="0.20"><div class="lr-h"><b>Perú</b><span class="pill ok">Vigente</span></div><p>Reglamento de IA (2025). Seleccionar, evaluar, contratar o despedir con IA es de alto riesgo.</p></div>
+        <div class="lr" data-anim="fade" data-delay="0.32"><div class="lr-h"><b>Brasil</b><span class="pill warn">En trámite</span></div><p>Aprobado por el Senado, pendiente en Diputados. Reclutamiento y evaluación: alto riesgo.</p></div>
+        <div class="lr" data-anim="fade" data-delay="0.44"><div class="lr-h"><b>Chile y Colombia</b><span class="pill warn">En trámite</span></div><p>Proyectos de ley con el mismo enfoque por niveles de riesgo.</p></div>
+        <div class="lr" data-anim="fade" data-delay="0.56"><div class="lr-h"><b>Uruguay</b><span class="pill ok">Vigente</span></div><p>Derecho a impugnar decisiones automatizadas sobre el rendimiento laboral.</p></div>
+        <div class="lr" data-anim="fade" data-delay="0.68"><div class="lr-h"><b>Paraguay</b><span class="pill mid">Desde 2027</span></div><p>Ley 7.593/2025: derecho a pedir revisión de decisiones automatizadas.</p></div>
+  </div></div>
+  <div class="frag" data-step="2"><p class="rg-out" data-anim="fade">En todas partes, la misma línea: <span class="mk">seleccionar, evaluar y despedir<svg class="mk-pen" viewBox="0 0 900 30" preserveAspectRatio="none" style="bottom:-0.14em"><path data-draw data-dur="0.6" data-delay="0.5" d="M4.0 21.5 L42.8 20.7 L81.6 19.1 L120.3 17.2 L159.1 15.6 L197.9 14.8 L236.7 14.9 L275.5 15.4 L314.3 15.8 L353.0 15.6 L391.8 14.7 L430.6 13.2 L469.4 11.7 L508.2 10.9 L547.0 11.0 L585.7 11.8 L624.5 12.8 L663.3 13.4 L702.1 13.3 L740.9 12.4 L779.7 11.3 L818.4 10.5 L857.2 10.4 L896.0 11.2" fill="none" stroke="#D7263D" stroke-width="6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span>.</p></div>
 
     
-    <div class="top on-dark"><span>El costo de un error</span><span>15 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>16 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
-    <div class="credit" style="right:24px;bottom:16px;text-align:right">Foto: Diliff, CC BY-SA 3.0, Wikimedia Commons</div>
+    
   </div>
-  <div id="s10b" class="scene clip" data-composition-id="s10b" data-start="90.0" data-duration="4.0" data-label="Qué hacer en cada etapa" data-width="1920" data-height="1080">
+  <div id="s10b" class="scene clip" data-composition-id="s10b" data-start="95.0" data-duration="4.0" data-label="Qué hacer en cada etapa" data-width="1920" data-height="1080">
     
   <h2 class="h lc-head" data-anim="fade">Dónde ejecuta la máquina y dónde firmas tú</h2>
   <div class="legend" data-anim="fade" data-delay="0.2"><span><i style="background:var(--ok)"></i>Automatiza sin reservas</span><span><i style="background:var(--warn)"></i>Automatiza con auditoría humana</span><span><i style="background:var(--mid)"></i>La IA asiste, tú decides</span><span><i style="background:var(--red)"></i>Firma humana obligatoria</span></div>
   <div class="lc"><div class="st" data-anim="fade" data-delay="0.42"><div class="n">1</div><h3>Reclutamiento</h3><div class="chips"><span class="chip q-g"><i></i>Descripciones de puesto</span><span class="chip q-g"><i></i>Publicación multicanal</span><span class="chip q-y"><i></i>Búsqueda de perfiles</span></div></div><div class="st" data-anim="fade" data-delay="0.54"><div class="n">2</div><h3>Selección</h3><div class="chips"><span class="chip q-g"><i></i>Filtro de requisitos mínimos</span><span class="chip q-y"><i></i>Ranking de candidatos</span><span class="chip q-r"><i></i>Rechazo final</span></div></div><div class="st" data-anim="fade" data-delay="0.66"><div class="n">3</div><h3>Onboarding</h3><div class="chips"><span class="chip q-g"><i></i>Asistente de inducción</span><span class="chip q-g"><i></i>Recorridos por rol</span><span class="chip q-y"><i></i>Seguimiento de avance</span></div></div><div class="st" data-anim="fade" data-delay="0.78"><div class="n">4</div><h3>Desarrollo</h3><div class="chips"><span class="chip q-y"><i></i>Recomendación de capacitación</span><span class="chip q-y"><i></i>Alertas de burnout</span><span class="chip q-o"><i></i>Evaluación de desempeño</span></div></div><div class="st" data-anim="fade" data-delay="0.90"><div class="n">5</div><h3>Fidelización</h3><div class="chips"><span class="chip q-y"><i></i>Predicción de fuga</span><span class="chip q-o"><i></i>Plan de retención</span><span class="chip q-o"><i></i>Propuesta salarial</span></div></div><div class="st" data-anim="fade" data-delay="1.02"><div class="n">6</div><h3>Offboarding</h3><div class="chips"><span class="chip q-o"><i></i>Entrevistas de salida</span><span class="chip q-g"><i></i>Traspaso de conocimiento</span><span class="chip q-r"><i></i>Decisión de desvinculación</span></div></div></div>
 
     
-    <div class="top"><span>El costo de un error</span><span>16 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>17 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s11" class="scene clip" data-composition-id="s11" data-start="94.0" data-duration="4.0" data-label="El criterio en una página" data-width="1920" data-height="1080">
+  <div id="s11" class="scene clip" data-composition-id="s11" data-start="99.0" data-duration="4.0" data-label="El criterio en una página" data-width="1920" data-height="1080">
     
   <p class="cr-intro" data-anim="fade">Antes de automatizar cualquier decisión de personas, hazte dos preguntas:</p>
   <p class="d cr-q" style="top:250px" data-anim="fade" data-delay="0.3">1. ¿Se puede deshacer si la IA se equivoca?</p>
@@ -666,13 +704,13 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <p class="hand cr-hand" data-anim="write" data-delay="1.4">o tú firmas.</p>
 
     
-    <div class="top"><span>El costo de un error</span><span>17 / 18</span></div>
+    <div class="top"><span>El costo de un error</span><span>18 / 19</span></div>
     <div class="foot">
       <div class="logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" alt="BRDGIT, a SilverLogic company" style="height:30px"><img src="assets/brand/spn-color.svg" alt="SPN Software" style="height:38px"></div>
     </div>
     
   </div>
-  <div id="s12" class="scene clip" data-composition-id="s12" data-start="98.0" data-duration="4.0" data-label="Cierre" data-width="1920" data-height="1080">
+  <div id="s12" class="scene clip" data-composition-id="s12" data-start="103.0" data-duration="4.0" data-label="Cierre" data-width="1920" data-height="1080">
     
   <div class="photo cl-photo" data-anim="plate"><img data-kb src="assets/duo/signature.jpg" alt="" style="object-position:35% 50%"></div>
   <p class="d cl-t" data-anim="rise">La IA no firma.</p>
@@ -693,19 +731,20 @@ tl.fromTo("#s03 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration:
 tl.fromTo("#s03 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 60.6);
 tl.fromTo("#s03 .frag[data-step=\"4\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 61.6);
 tl.fromTo("#s04 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 64.1);
-tl.fromTo("#s06 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 70.6);
-tl.fromTo("#s06 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 71.6);
-tl.fromTo("#s07 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 74.1);
-tl.fromTo("#s07 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 75.1);
-tl.fromTo("#s07 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 76.1);
-tl.fromTo("#s07 .frag[data-step=\"4\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 77.1);
-tl.fromTo("#s08 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 79.6);
-tl.fromTo("#s08 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 80.6);
-tl.fromTo("#s08 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 81.6);
-tl.fromTo("#s09 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 84.1);
-tl.fromTo("#s09 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 85.1);
-tl.fromTo("#s09 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 86.1);
-tl.fromTo("#s10 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 88.6);
+tl.fromTo("#s06 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 74.6);
+tl.fromTo("#s06 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 75.6);
+tl.fromTo("#s07 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 78.1);
+tl.fromTo("#s07 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 79.1);
+tl.fromTo("#s07 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 80.1);
+tl.fromTo("#s07 .frag[data-step=\"4\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 81.1);
+tl.fromTo("#s08 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 83.6);
+tl.fromTo("#s08 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 84.6);
+tl.fromTo("#s08 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 85.6);
+tl.fromTo("#s09 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 88.1);
+tl.fromTo("#s09 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 89.1);
+tl.fromTo("#s09 .frag[data-step=\"3\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 90.1);
+tl.fromTo("#s10 .frag[data-step=\"1\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 92.6);
+tl.fromTo("#s10 .frag[data-step=\"2\"]", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 93.6);
   window.__timelines = window.__timelines || {};
   window.__timelines["deck"] = tl;
 </script>
