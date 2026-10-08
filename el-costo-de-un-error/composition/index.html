@@ -172,12 +172,12 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 .cs-photo { left:0; top:0; bottom:0; width:600px; }
 .cs-tab { position:absolute; left:690px; top:140px; font-size:24px; font-weight:600; color:var(--ink-3); }
 .cs-h { position:absolute; left:690px; top:196px; width:1110px; font-size:72px; }
-.cs-rows { position:absolute; left:690px; right:120px; top:430px; }
+.cs-rows { position:absolute; left:690px; right:120px; top:400px; }
 .row { display:grid; grid-template-columns:260px 1fr; gap:30px; padding:22px 0; border-top:1px solid var(--rule); }
 .row .t { font-size:22px; font-weight:600; padding-top:4px; display:flex; gap:12px; align-items:center; }
 .row .t i { width:12px; height:12px; flex:none; }
 .row p { font-size:27px; line-height:1.42; color:var(--ink); }
-.cs-stamp { position:absolute; right:150px; bottom:120px; }
+.cs-stamp { position:absolute; right:130px; bottom:56px; }
 .cs-big { position:absolute; left:70px; bottom:120px; color:#fff; z-index:2; }
 .cs-big .n { font-family:"Archivo",sans-serif; font-stretch:70%; font-weight:800; font-size:120px; line-height:.9; }
 .cs-big span { font-size:22px; opacity:.85; }
@@ -205,12 +205,14 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
 
 /* ---------- cierre ---------- */
 .cl-photo { right:0; top:0; bottom:0; width:820px; }
-.cl-t { position:absolute; left:120px; top:230px; font-size:210px; }
-.cl-hand { position:absolute; left:110px; top:520px; font-size:300px; }
+.cl-t { position:absolute; left:120px; top:140px; font-size:210px; }
+.cl-hand { position:absolute; left:110px; top:390px; font-size:270px; }
 .cl-foot { position:absolute; left:120px; right:900px; bottom:80px; }
 .cl-foot b { display:block; font-size:30px; font-weight:600; }
 .cl-foot span { display:block; font-size:21px; color:var(--ink-3); margin-top:6px; }
 .cl-logos { display:flex; align-items:center; gap:36px; margin-top:26px; }
+.cl-who { display:flex; align-items:center; gap:30px; }
+.cl-who img.qr { width:170px; height:170px; border-radius:10px; display:block; flex:none; }
 
 </style>
 </head>
@@ -495,7 +497,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="mi-line" data-anim="mask" data-dur="1.4"></div>
   <div class="mi-row">
     <div class="mi" data-anim="fade" data-delay="0.20"><div class="ph"><img src="assets/duo/turing.jpg" alt="" style="object-position:50% 20%"></div>
-      <div class="yr">1950</div><h3>Alan Turing pregunta: «¿Pueden pensar las máquinas?»</h3><p>Venía de ayudar a descifrar Enigma. La IA nació como problema militar y filosófico.</p></div>
+      <div class="yr">1950</div><h3>Alan Turing pregunta: «¿Pueden pensar las máquinas?»</h3><p>Venía de ayudar a descifrar Enigma. Su pregunta abrió un campo nuevo.</p></div>
     <div class="mi" data-anim="fade" data-delay="0.35"><div class="ph"><img src="assets/duo/deep-blue.jpg" alt="" style="object-position:50% 35%"></div>
       <div class="yr">1997</div><h3>Deep Blue vence a Kasparov</h3><p>Una máquina ya superaba al mejor humano en algo complejo.</p></div>
     <div class="mi" data-anim="fade" data-delay="0.50"><div class="ph"><img src="assets/duo/go-board.jpg" alt="" style="object-position:50% 60%"></div>
@@ -528,7 +530,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div id="s06" class="scene clip" data-composition-id="s06" data-start="69.5" data-duration="3.5" data-label="La pregunta correcta" data-width="1920" data-height="1080">
     
   <div class="pq-stats">
-    <div class="pq-stat" data-anim="fade"><div class="n machine-text" data-count="88" data-suffix="%">88%</div><p>de las organizaciones dice usar IA en al menos una función. Encuesta global de McKinsey, 2025: 1.993 ejecutivos en 105 países.</p></div>
+    <div class="pq-stat" data-anim="fade"><div class="n machine-text" data-count="88" data-suffix="%">88%</div><p>de las organizaciones dice usar IA en al menos una función. Encuesta global de McKinsey, 2025: 1.993 participantes de 105 países.</p></div>
     <div class="pq-stat" data-anim="fade" data-delay="0.25"><div class="n"><span data-count="10" data-suffix="%">10%</span> <span style="color:var(--ink-3)">/</span> <span data-count="6" data-suffix="%">6%</span></div><p>de las empresas de LATAM usa IA, y solo el 6% capta valor (CCLATAM, julio 2026).</p></div>
   </div>
   <div class="pq-qs">
@@ -600,9 +602,9 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="photo cs-photo" data-anim="plate"><img data-kb src="assets/duo/cv-pile.jpg" alt="" style="object-position:62% 50%"></div>
   <div class="cs-big" data-anim="fade" data-delay="0.6"><div class="n">0 a 5</div><span>El puntaje que nadie podía ver</span></div>
   <div class="cs-tab" data-anim="fade">Caso 2. Eightfold AI, Estados Unidos, 2026</div>
-  <h2 class="h cs-h" data-anim="fade">Un puntaje secreto descartaba CVs antes de que una persona los leyera</h2>
+  <h2 class="h cs-h" data-anim="fade">Según la demanda, un puntaje secreto descartaba CVs sin que nadie los leyera</h2>
   <div class="cs-rows">
-      <div class="frag" data-step="1"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--red)"></i>Consecuencia</div><p>Demanda colectiva desde enero de 2026 bajo la ley de informes de antecedentes (FCRA): entre USD 100 y 1.000 por persona afectada. La plataforma la usan grandes empleadores.</p></div></div>
+      <div class="frag" data-step="1"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--red)"></i>Consecuencia</div><p>Demanda colectiva presentada en enero de 2026, todavía en curso, bajo la ley de informes de antecedentes (FCRA): reclama entre USD 100 y 1.000 por persona afectada. La plataforma la usan grandes empleadores.</p></div></div>
       <div class="frag" data-step="2"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--warn)"></i>Causa</div><p>Habría armado perfiles con datos de más de 1.000 millones de trabajadores, puntuado a cada postulante y descartado a los de nota baja. Nadie sabía que tenía un puntaje, ni podía corregirlo.</p></div></div>
       <div class="frag" data-step="3"><div class="row" data-anim="fade"><div class="t"><i style="background:var(--ok)"></i>Lo que debió pasar</div><p>Avisar al candidato, darle acceso a su evaluación y que una persona revise antes de descartar.</p></div></div></div>
   <div class="frag" data-step="3"><div class="cs-stamp"><div class="stamp" data-anim="stamp" data-delay="0.5">Firma humana obligatoria</div></div></div>
@@ -675,7 +677,7 @@ body { color: var(--ink); font-family: var(--body-font), system-ui, sans-serif; 
   <div class="photo cl-photo" data-anim="plate"><img data-kb src="assets/duo/signature.jpg" alt="" style="object-position:35% 50%"></div>
   <p class="d cl-t" data-anim="rise">La IA no firma.</p>
   <p class="hand cl-hand" data-anim="write" data-dur="1.3" data-delay="0.9">Tú sí.</p>
-  <div class="cl-foot" data-anim="fade" data-delay="1.6"><b>Ariel González Batista</b><span>AI Engineer &amp; Consultant en BRDGIT. Manager de I+D en SPN Software.</span>
+  <div class="cl-foot" data-anim="fade" data-delay="1.6"><div class="cl-who"><img class="qr" src="assets/brand/qr-linkedin.svg" alt="QR a LinkedIn de Ariel González Batista"><div><b>Ariel González Batista</b><span>AI Engineer &amp; Consultant en BRDGIT. Manager de I+D en SPN Software.</span><span>Escanea para conectar en LinkedIn</span></div></div>
     <div class="cl-logos"><img src="assets/brand/brdgit-silverlogic-dark.svg" style="height:40px" alt="BRDGIT"><img src="assets/brand/spn-color.svg" style="height:50px" alt="SPN Software"></div></div>
 
     
